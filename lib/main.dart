@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'addNewItem.dart';
-import 'Item.dart';
+import 'package:item_tracker/Models/Item.dart';
 import 'package:uuid/uuid.dart';
 
 void main() => runApp(MyApp());
@@ -55,6 +55,7 @@ class _AppHomeState extends State<AppHome> {
   var collectionName = 'trackeditems';
   var key = 'name';
   var value = 'count';
+  var grouping = 'category';
 
   void _addNewItem(Item item){
     setState(() {
@@ -63,7 +64,8 @@ class _AppHomeState extends State<AppHome> {
       var ds = Firestore.instance.collection(collectionName).document(id);
       Map<String, dynamic> mapped = {
         key: item.name,
-        value: 0
+        value: item.count,
+        grouping: item.category
       };
       ds.setData(mapped);
     });
@@ -156,12 +158,9 @@ class _AppHomeState extends State<AppHome> {
           color: Colors.red,
           icon: Icons.delete_forever,
           onTap: () => _deleteItem(document),
-        )
-      ],
-      secondaryActions: <Widget>[
+        ),
         IconSlideAction(
           caption: 'Minus',
-
           color: Colors.blueGrey,
           icon: Icons.exposure_neg_1,
           onTap: () => _decrementItemCount(document),
@@ -174,7 +173,6 @@ class _AppHomeState extends State<AppHome> {
         )
       ],
     );
-
   }
 
 

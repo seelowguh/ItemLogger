@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:item_tracker/Item.dart';
+import 'package:item_tracker/Models/Item.dart';
 
 class AddNewItem extends StatefulWidget {
   @override
@@ -9,6 +9,8 @@ class AddNewItem extends StatefulWidget {
 class AddNewItemState extends State<AddNewItem> {
   TextEditingController _textController;
   String name;
+  String category;
+  int count;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class AddNewItemState extends State<AddNewItem> {
               onPressed: () {
                 Navigator
                 .of(context)
-                    .pop(new Item(name, 0));
+                    .pop(new Item(name, 0, category));
               },
               child: new Text('Save',
                   style: Theme
@@ -42,7 +44,27 @@ class AddNewItemState extends State<AddNewItem> {
               controller: _textController,
                 onChanged: (value) => name = value,
             ),
-          )
+          ),
+          new ListTile(
+            title: new TextField(
+              decoration: new InputDecoration(
+                hintText: 'Category',
+              ),
+            textCapitalization: TextCapitalization.words,
+            controller: _textController,
+              onChanged: (value) => category = value,
+            ),
+          ),
+          new ListTile(
+            title: new TextField(
+              decoration: new InputDecoration(
+                hintText: 'Initial Count',
+              ),
+            keyboardType: TextInputType.numberWithOptions(),
+            controller: _textController,
+            onChanged: (value) => count = int.parse(value),
+            ),
+            )
         ],
       ),
     );
